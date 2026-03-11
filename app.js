@@ -96,7 +96,7 @@ app.use((req, res, next) => {
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
-
+app.use('/', shopRoutes);
 // Page Not Found Error Middleware
 app.use(errorController.get404);
 
