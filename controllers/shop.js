@@ -41,6 +41,12 @@ exports.getCart = (req, res, next) => {
     .execPopulate()
     .then((user) => {
       const products = user.cart.products;
+
+      let totalPrice = 0;
+      products.forEach(item => {
+  	totalPrice += item.productId.price * item.quantity;
+});
+
       res.render('shop/cart', {
         title: 'Your Cart',
         path: '/cart',
@@ -137,7 +143,19 @@ exports.getOrders = (req, res, next) => {
     })
     .catch(err => forwardError(err, next));
 };
+exports.getSearch = (req, res, next) => {
+  const query = req.query.q;
 
+  Product.find({ title: { $regex: query, $options: 'i' } })
+    .then(products => {
+      res.render('shop/product-list', {
+        prods: products,
+        pageTitle: 'Search Results',
+        path: '/search'
+      });
+    })
+    .catch(err => console.log(err));
+};
 exports.getInvoice = (req, res, next) => {
   const orderId = req.params.orderId;
   Order.findById(orderId)
