@@ -27,12 +27,14 @@ exports.getProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   Product.findById(req.params.productId)
     .then((product) => {
-      res.render('shop/product-detail', {
-        title: product.title,
-        path: '/products',
-        product
-      });
-    }).catch(err => forwardError(err, next));
+    res.render('shop/product-list', {
+     title: 'Products',
+     path: '/products',
+     products: products
+});
+   
+    })
+    .catch(err => forwardError(err, next));
 };
 
 exports.getCart = (req, res, next) => {
