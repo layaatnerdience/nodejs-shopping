@@ -44,15 +44,18 @@ exports.getCart = (req, res, next) => {
 
       let totalPrice = 0;
       products.forEach(item => {
-  	totalPrice += item.productId.price * item.quantity;
-});
+        totalPrice += item.productId.price * item.quantity;
+      });
 
       res.render('shop/cart', {
         title: 'Your Cart',
         path: '/cart',
-        products
+        products: products,
+        totalPrice: totalPrice
       });
-    }).catch(err => forwardError(err, next));
+
+    })
+    .catch(err => forwardError(err, next));
 };
 
 exports.postCart = (req, res, next) => {
